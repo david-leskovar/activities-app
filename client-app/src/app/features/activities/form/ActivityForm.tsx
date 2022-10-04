@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { Activity } from "../../../models/activity";
 import { useState } from "react";
@@ -7,13 +7,16 @@ interface Props {
   activity: Activity | undefined;
   closeForm: () => void;
   createOrEdit: (activity: Activity) => void;
+  submitting: boolean;
 }
 
 export default function ActivityForm({
   activity: selectedActivity,
   closeForm,
   createOrEdit,
+  submitting,
 }: Props) {
+  /*
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -23,6 +26,22 @@ export default function ActivityForm({
     city: "",
     venue: "",
   };
+
+  */
+
+  const initialState = useMemo(() => {
+    return (
+      selectedActivity ?? {
+        id: "",
+        title: "",
+        category: "",
+        description: "",
+        date: "",
+        city: "",
+        venue: "",
+      }
+    );
+  }, [selectedActivity]);
 
   const [activity, setActivity] = useState(initialState);
 
@@ -36,6 +55,10 @@ export default function ActivityForm({
     const { name, value } = event.target;
     setActivity({ ...activity, [name]: value });
   }
+
+  useEffect(() => {
+    setActivity(initialState);
+  }, [initialState, selectedActivity]);
 
   return (
     <Segment clearing>
@@ -59,6 +82,7 @@ export default function ActivityForm({
           value={activity.category}
         ></Form.Input>
         <Form.Input
+          type="date"
           placeholder="Date"
           name="date"
           onChange={handleInputChange}
@@ -77,6 +101,7 @@ export default function ActivityForm({
           value={activity.venue}
         ></Form.Input>
         <Button
+          loading={submitting}
           floated="right"
           positive
           type="submit"
