@@ -1,34 +1,21 @@
 import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
-import { Activity } from "../../../models/activity";
+
 import { useState } from "react";
+import { useStore } from "../../../stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-  activity: Activity | undefined;
-  closeForm: () => void;
-  createOrEdit: (activity: Activity) => void;
-  submitting: boolean;
-}
+export default observer(function ActivityForm() {
+  const { activityStore } = useStore();
+  const {
+    selectedActivity,
+    closeForm,
+    createActivity,
+    updateActivity,
+    loading,
+  } = activityStore;
 
-export default function ActivityForm({
-  activity: selectedActivity,
-  closeForm,
-  createOrEdit,
-  submitting,
-}: Props) {
   /*
-  const initialState = selectedActivity ?? {
-    id: "",
-    title: "",
-    category: "",
-    description: "",
-    date: "",
-    city: "",
-    venue: "",
-  };
-
-  */
-
   const initialState = useMemo(() => {
     return (
       selectedActivity ?? {
@@ -43,10 +30,22 @@ export default function ActivityForm({
     );
   }, [selectedActivity]);
 
+  */
+
+  const initialState = selectedActivity ?? {
+    id: "",
+    title: "",
+    category: "",
+    description: "",
+    date: "",
+    city: "",
+    venue: "",
+  };
+
   const [activity, setActivity] = useState(initialState);
 
   function handleSubmit(event: any) {
-    createOrEdit(activity);
+    activity.id ? updateActivity(activity) : createActivity(activity);
   }
 
   function handleInputChange(
@@ -56,10 +55,12 @@ export default function ActivityForm({
     setActivity({ ...activity, [name]: value });
   }
 
+  /*
   useEffect(() => {
     setActivity(initialState);
   }, [initialState, selectedActivity]);
 
+  */
   return (
     <Segment clearing>
       <Form onSubmit={handleSubmit} autoComplete="off">
@@ -101,7 +102,7 @@ export default function ActivityForm({
           value={activity.venue}
         ></Form.Input>
         <Button
-          loading={submitting}
+          loading={loading}
           floated="right"
           positive
           type="submit"
@@ -116,4 +117,4 @@ export default function ActivityForm({
       </Form>
     </Segment>
   );
-}
+});
