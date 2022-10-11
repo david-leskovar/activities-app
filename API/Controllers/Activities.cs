@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Application;
 using MediatR;
 using Application.Activities;
+using System.Threading.Tasks;
+using System;
 
 namespace API.Controllers
 {
@@ -15,16 +17,17 @@ namespace API.Controllers
 
         public ActivitiesController(IMediator mediator)
         {
+
             this.mediator = mediator;
         }
 
 
 
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> GetActivities()
+        public async Task<IActionResult> GetActivities()
         {
 
-            return await mediator.Send(new List.Query());
+            return HandleResult(await mediator.Send(new List.Query()));
 
         }
 
@@ -32,10 +35,10 @@ namespace API.Controllers
         [HttpGet("{id}")]
 
 
-        public async Task<ActionResult<Activity>> GetActivity(Guid id)
+        public async Task<ActionResult> GetActivity(Guid id)
         {
 
-            return await mediator.Send(new Details.Query { Id = id });
+            return HandleResult(await mediator.Send(new Details.Query { Id = id }));
         }
 
         [HttpPost]
@@ -43,7 +46,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateActivity([FromBody] Activity activity)
         {
 
-            return Ok(await mediator.Send(new Create.Command { Activity = activity }));
+            return HandleResult(await mediator.Send(new Create.Command { Activity = activity }));
 
 
         }
@@ -55,7 +58,7 @@ namespace API.Controllers
 
             activity.Id = id;
 
-            return Ok(await mediator.Send(new Edit.Command { Activity = activity }));
+            return HandleResult(await mediator.Send(new Edit.Command { Activity = activity }));
 
 
         }
@@ -67,7 +70,7 @@ namespace API.Controllers
 
 
 
-            return Ok(await mediator.Send(new Delete.Command { Id = id }));
+            return HandleResult(await mediator.Send(new Delete.Command { Id = id }));
 
 
         }

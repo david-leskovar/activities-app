@@ -23,6 +23,7 @@ function NavBar() {
             content="Create Activity"
           />
         </Menu.Item>
+        <Menu.Item name="Errors" as={NavLink} to="/errors" />
       </Container>
     </Menu>
   );
