@@ -5,6 +5,7 @@ import LoadingComponent from "../../../layout/LoadingComponent";
 import NavBar from "../../../layout/NavBar";
 
 import { useStore } from "../../../stores/store";
+import ActivityFilters from "./ActivityFilters";
 
 import ActivityList from "./ActivityList";
 
@@ -33,7 +34,7 @@ function ActivityDashboard() {
       </Grid.Column>
 
       <Grid.Column width="6">
-        <h2>Activity fitlers</h2>
+        <ActivityFilters />
       </Grid.Column>
     </Grid>
   );
