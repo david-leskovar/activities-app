@@ -6,6 +6,7 @@ using MediatR;
 using Application.Activities;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -22,7 +23,7 @@ namespace API.Controllers
         }
 
 
-
+       
         [HttpGet]
         public async Task<IActionResult> GetActivities()
         {
@@ -31,7 +32,7 @@ namespace API.Controllers
 
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
 
 
