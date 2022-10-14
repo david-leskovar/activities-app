@@ -18,7 +18,8 @@ import { Activity } from "../../../models/activity";
 
 export default observer(function ActivityForm() {
   const history = useHistory();
-  const { activityStore } = useStore();
+
+  const { activityStore, userStore } = useStore();
   const {
     createActivity,
     updateActivity,
@@ -104,6 +105,16 @@ export default observer(function ActivityForm() {
   */
 
   if (loadingInitial) return <LoadingComponent content="Loading activity..." />;
+  if (!userStore.isLoggedIn) {
+    return (
+      <div>
+        <h1>You are not logged in</h1>
+        <Button as={Link} to="/" inverted>
+          Go to Login!
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Segment clearing>

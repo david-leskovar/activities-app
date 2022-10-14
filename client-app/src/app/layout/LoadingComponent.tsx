@@ -12,7 +12,7 @@ export default function LeadingComponent({
 }: Props) {
   return (
     <Dimmer active>
-      <Loader indeterminate>Preparing Files</Loader>
+      <Loader indeterminate>{content}</Loader>
     </Dimmer>
   );
 }

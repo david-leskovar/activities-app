@@ -20,12 +20,7 @@ function ActivityDashboard() {
   }, [activityRegistry.size, loadActivities]);
 
   if (activityStore.loadingInitial)
-    return (
-      <Fragment>
-        <NavBar />
-        <LoadingComponent inverted={false} />
-      </Fragment>
-    );
+    return <LoadingComponent content="ASDASDASDASDASDASDASDADASD" />;
 
   return (
     <Grid>
