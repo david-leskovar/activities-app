@@ -84,6 +84,9 @@ namespace API.Controllers
 
 
             var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+            if(user == null) return NotFound();
+
             return CreateUserObject(user);
 
         }
