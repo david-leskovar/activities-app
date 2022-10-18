@@ -10,6 +10,7 @@ using Application.Core;
 using Application.Interfaces;
 using Domain;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -136,6 +137,8 @@ namespace API
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.Configure<CloudinarySettings>(_config.GetSection("Cloudinary"));
             
 
         }
