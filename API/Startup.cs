@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Middleware;
 using API.Services;
+using API.SignalR;
 using Application.Activities;
 using Application.Core;
 using Application.Interfaces;
@@ -70,6 +71,23 @@ namespace API
                         ValidateAudience = false
 
                     };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            {
+                                context.Token = accessToken;
+
+                            }
+
+                            return Task.CompletedTask;
+
+                        }
+                    };
                 });
 
             services.AddAuthorization(opt =>
@@ -128,7 +146,7 @@ namespace API
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
 
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:3000");
 
                 });
 
@@ -139,6 +157,7 @@ namespace API
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.Configure<CloudinarySettings>(_config.GetSection("Cloudinary"));
+            services.AddSignalR();
             
 
         }
@@ -170,6 +189,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
