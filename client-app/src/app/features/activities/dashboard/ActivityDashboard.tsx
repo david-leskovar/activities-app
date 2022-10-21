@@ -1,8 +1,7 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../layout/LoadingComponent";
-import NavBar from "../../../layout/NavBar";
 
 import { useStore } from "../../../stores/store";
 import ActivityFilters from "./ActivityFilters";
@@ -20,7 +19,7 @@ function ActivityDashboard() {
   }, [activityRegistry.size, loadActivities]);
 
   if (activityStore.loadingInitial)
-    return <LoadingComponent content="ASDASDASDASDASDASDASDADASD" />;
+    return <LoadingComponent content="Loading content" />;
 
   return (
     <Grid>
