@@ -17,8 +17,8 @@ export interface Activity {
 }
 
 export class Activity implements Activity {
-  constructor(init?: ActivityFormValues){
-    Object.assign(this,init);
+  constructor(init?: ActivityFormValues) {
+    Object.assign(this, init);
   }
 }
 
@@ -41,4 +41,11 @@ export class ActivityFormValues {
       this.city = activity.city;
     }
   }
+}
+
+export interface UserActivity {
+  id: string;
+  title: string;
+  category: string;
+  date: Date;
 }
