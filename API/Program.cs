@@ -26,6 +26,7 @@ namespace API
             {
 
                 var context = services.GetRequiredService<DataContext>();
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 await context.Database.MigrateAsync();
                 UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
                 await Seed.SeedData(context,userManager);

@@ -23,7 +23,6 @@ import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/ModalContainer";
 import ProfilePage from "../features/profiles/ProfilePage";
 import PrivateRoute from "./PrivateRoute";
-import UserStore from "../stores/userStore";
 
 function App() {
   const location = useLocation();
